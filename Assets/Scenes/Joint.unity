@@ -323,7 +323,7 @@ MonoBehaviour:
   WalkAgentSettings:
     AnimationTrigger: Walk
     Clip: {fileID: 0}
-  radius: 2
+  radius: 5
   direction: {x: 0, y: 1, z: 0}
   maxDistance: 1
   carMask:
@@ -337,14 +337,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301425899}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.047027465, z: -0, w: 0.9988936}
-  m_LocalPosition: {x: -0.39, y: 0, z: -33.21}
+  m_LocalRotation: {x: 0, y: -0.37751758, z: 0, w: 0.92600244}
+  m_LocalPosition: {x: -1.3368254, y: 0, z: -35.67445}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1101215255}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 5.391, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -44.36, z: 0}
 --- !u!195 &301425902
 NavMeshAgent:
   m_ObjectHideFlags: 0

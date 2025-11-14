@@ -27,6 +27,13 @@ namespace Assets.Scripts.Character
             // TODO: SE HO RAGGIUNTO IL PIVOT, ALLORA RUOTARE IL PERSONAGGIO FINO AL DRIVE PIVOT DELLA MACCHINA
             // SENZA CAMBIARE STATO
 
+            _owner.transform.rotation = new(_owner.transform.rotation.x, Mathf.Lerp(_owner.transform.rotation.y, _owner.CurrentCar.DrivePivot.rotation.y, 5 * Time.deltaTime), _owner.transform.rotation.z, _owner.transform.rotation.w);
+            if (_owner.transform.rotation != _owner.CurrentCar.DrivePivot.rotation)
+            {
+                Debug.Log("Sto girando...");
+                return; // se non sono ancora girato, esco
+            }
+
             _timePassed += Time.deltaTime;
             if (_timePassed >= _clipLength)
             {
