@@ -16,4 +16,14 @@ public class PlayerControllerAnimatorUtils : MonoBehaviour
     {
         playerController.SitCompleted();
     }
+
+    public void SetColliderTrigger()
+    {
+        playerController.SetCollliderTrigger();
+    }
+
+    public void SetColliderSolid()
+    {
+        playerController.SetColliderSolid();
+    }
 }

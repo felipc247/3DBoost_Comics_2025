@@ -118,7 +118,7 @@ namespace Assets.Scripts.Car
             }
         }
 
-        public void Move(Vector3 direction)
+        public void Move(Vector2 direction)
         {
             inputVector = direction;
             inputCanceled = false;

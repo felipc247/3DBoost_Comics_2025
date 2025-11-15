@@ -38,10 +38,18 @@ public class PlayerController : MonoBehaviour, IControllable
     public float RotationSpeed = 30f;
     public float MinimumStoppingRotationAngle = 5f;
 
+    public Vector3 Direction = Vector3.zero;
+    public float MovementSpeed;
+    public float Acceleration;
+    public float MaxSpeed;
+
+    Collider capsuleCollider;
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        GameManager.Instance.SwitchToPlayerCamera();
 
         _agent.enabled = false;
 
@@ -54,6 +62,8 @@ public class PlayerController : MonoBehaviour, IControllable
         stateMachine.RegisterState(CharacterStateEnum.WalkAgent, new WalkAgentCharacterState(this, _animator));
 
         SetIdle();
+
+        capsuleCollider = GetComponent<Collider>();
     }
 
     #region STATE MACHINE SETTERS
@@ -125,12 +135,23 @@ public class PlayerController : MonoBehaviour, IControllable
         _agent.SetDestination(destination.position);
     }
 
-    public void Move(Vector3 direction)
+    public void SetCollliderTrigger()
+    { 
+        capsuleCollider.isTrigger = true;
+    }
+    public void SetColliderSolid()
     {
+        capsuleCollider.isTrigger = false;
+    }
+
+    public void Move(Vector2 direction)
+    {
+        Direction = new Vector3(direction.x, 0, direction.y);
     }
 
     public void MoveCanceled()
     {
+        Direction = Vector3.zero;
     }
 
     /// <summary>

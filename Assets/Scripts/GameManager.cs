@@ -1,11 +1,15 @@
 using Assets.Scripts.Interfaces;
 using DesignPatterns.Generics;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
     IControllable _currentControllable;
     private InputSystem_Actions _inputs;
+
+    [SerializeField] private CinemachineCamera playerCamera;
+    [SerializeField] private CinemachineCamera carCamera;
 
     public override void Awake()
     {
@@ -40,5 +44,17 @@ public class GameManager : Singleton<GameManager>
     public void SetControllable(IControllable controllable)
     {
         _currentControllable = controllable;
+    }
+
+    public void SwitchToPlayerCamera()
+    { 
+        carCamera.Priority = 0;
+        playerCamera.Priority = 10;
+    }
+
+    public void SwitchToCarCamera()
+    { 
+        playerCamera.Priority = 0;
+        carCamera.Priority = 10;
     }
 }

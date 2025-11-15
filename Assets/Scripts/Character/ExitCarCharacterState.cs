@@ -18,6 +18,7 @@ namespace Assets.Scripts.Character
         public override void OnStart()
         {
             _animator.SetTrigger(_owner.ExitCarSettings.AnimationTrigger);
+            GameManager.Instance.SwitchToPlayerCamera();
             _timePassed = 0;
         }
 
@@ -37,7 +38,6 @@ namespace Assets.Scripts.Character
 
         public override void OnEnd()
         {
-
         }
     }
 }
