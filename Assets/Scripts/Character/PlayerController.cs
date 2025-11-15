@@ -38,10 +38,17 @@ public class PlayerController : MonoBehaviour, IControllable
     public float RotationSpeed = 30f;
     public float MinimumStoppingRotationAngle = 5f;
 
+    public Vector3 Direction = Vector3.zero;
+    public float Acceleration = 100f;
+    public float MaxSpeed = 5f;
+
+    Collider _capsuleCollider;
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        _capsuleCollider = GetComponent<Collider>();
 
         _agent.enabled = false;
 
@@ -96,6 +103,11 @@ public class PlayerController : MonoBehaviour, IControllable
         ReleaseAllRequests();
     }
 
+    private void FixedUpdate()
+    {
+        stateMachine.OnFixedUpdate();
+    }
+
     public void SetNearestCar()
     {
         RaycastHit[] results = new RaycastHit[4];
@@ -125,12 +137,14 @@ public class PlayerController : MonoBehaviour, IControllable
         _agent.SetDestination(destination.position);
     }
 
-    public void Move(Vector3 direction)
+    public void Move(Vector2 direction)
     {
+        Direction = new Vector3(direction.x, 0, direction.y);
     }
 
     public void MoveCanceled()
     {
+        Direction = Vector3.zero;
     }
 
     /// <summary>
@@ -174,6 +188,15 @@ public class PlayerController : MonoBehaviour, IControllable
         _agent.enabled = false;
     }
 
+    public void SetColliderTrigger()
+    {
+        _capsuleCollider.isTrigger = true;
+    }
+
+    public void SetColliderSolid()
+    {
+        _capsuleCollider.isTrigger = false;
+    }
 }
 
 [Serializable]

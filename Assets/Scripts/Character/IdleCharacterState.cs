@@ -30,6 +30,12 @@ namespace Assets.Scripts.Character
                     return;
                 }
             }
+
+            if (_owner.Direction != Vector3.zero)
+            {
+                _owner.SetWalk();
+                return;
+            }
         }
 
         public override void OnFixedUpdate()

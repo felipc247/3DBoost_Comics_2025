@@ -18,6 +18,7 @@ namespace Assets.Scripts.Character
 
         public override void OnStart()
         {
+            _owner.SetColliderTrigger();
             _animator.SetTrigger(_owner.EnterCarSettings.AnimationTrigger);
             _timePassed = 0;
         }
