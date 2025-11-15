@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour, IControllable
     private CarControl _currentCar;
     public CarControl CurrentCar => _currentCar;
 
-    public float rotationSpeed = 30f;
+    public float RotationSpeed = 30f;
+    public float MinimumStoppingRotationAngle = 5f;
 
     private void Awake()
     {

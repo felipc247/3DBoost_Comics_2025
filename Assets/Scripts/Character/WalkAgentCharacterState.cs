@@ -27,12 +27,14 @@ namespace Assets.Scripts.Character
             {
                 _owner.transform.rotation = 
                     Quaternion.RotateTowards(
-                        _owner.transform.rotation, _owner.CurrentCar.AccessPivot.rotation, _owner.rotationSpeed * Time.deltaTime);
+                        _owner.transform.rotation, _owner.CurrentCar.AccessPivot.rotation, _owner.RotationSpeed * Time.deltaTime);
 
-                if (_owner.transform.rotation != _owner.CurrentCar.AccessPivot.rotation)
+                if (Quaternion.Angle(_owner.transform.rotation, _owner.CurrentCar.AccessPivot.rotation) > _owner.MinimumStoppingRotationAngle)
                 {
                     return;
                 }
+
+                _owner.transform.rotation = _owner.CurrentCar.AccessPivot.rotation;
                 _owner.SetEnterCar();
                 return;
             }

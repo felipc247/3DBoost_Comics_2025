@@ -24,16 +24,28 @@ namespace Assets.Scripts.Character
 
         public override void OnUpdate()
         {
-            _owner.transform.rotation = Quaternion.RotateTowards(_owner.transform.rotation, _owner.CurrentCar.DrivePivot.rotation, _owner.rotationSpeed * Time.deltaTime);
+            _timePassed += Time.deltaTime;
+
             if (_owner.transform.rotation != _owner.CurrentCar.DrivePivot.rotation)
             {
-                return;
+                _owner.transform.rotation =
+                    Quaternion.RotateTowards(
+                        _owner.transform.rotation,
+                        _owner.CurrentCar.DrivePivot.rotation,
+                        _owner.RotationSpeed * Time.deltaTime);
 
+                if (Quaternion.Angle(_owner.transform.rotation, _owner.CurrentCar.DrivePivot.rotation) > _owner.MinimumStoppingRotationAngle)
+                {
+                    return;
+                }
+
+                _owner.transform.rotation = _owner.CurrentCar.DrivePivot.rotation;
             }
-            _timePassed += Time.deltaTime;
+
             if (_timePassed >= _clipLength)
             {
                 _owner.SetDrive();
+                return;
             }
         }
 
