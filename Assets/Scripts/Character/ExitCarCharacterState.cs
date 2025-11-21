@@ -37,7 +37,8 @@ namespace Assets.Scripts.Character
 
         public override void OnEnd()
         {
-
+            _owner.transform.SetParent(null);
+            GameManager.Instance.SetControllable(_owner);
         }
     }
 }

@@ -41,9 +41,15 @@ public class GameManager : Singleton<GameManager>
         _currentControllable.Move(obj.ReadValue<Vector2>());
     }
 
+    /// <summary>
+    /// Sets the current controllable object enabling it and disabling the previous one
+    /// </summary>
+    /// <param name="controllable"></param>
     public void SetControllable(IControllable controllable)
     {
+        _currentControllable?.Disable();
         _currentControllable = controllable;
+        _currentControllable.Enable();
     }
 
     public void SwitchToPlayerCamera()

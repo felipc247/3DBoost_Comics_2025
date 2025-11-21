@@ -16,13 +16,17 @@ namespace Assets.Scripts.Character
         public override void OnStart()
         {
             GameManager.Instance.SwitchToCarCamera();
+            GameManager.Instance.SetControllable(_owner.CurrentCar);
             _animator.SetTrigger(_owner.DriveSettings.AnimationTrigger);
             _timePassed = 0;
         }
 
         public override void OnUpdate()
         {
-
+            if (_owner.InteractionRequest)
+            { 
+                _owner.SetExitCar();
+            }
         }
 
         public override void OnFixedUpdate()

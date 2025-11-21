@@ -22,37 +22,47 @@ namespace Assets.Scripts.Car
 
         Rigidbody rigidBody;
 
-        //InputSystem_Actions inputActions;
+        InputSystem_Actions inputActions;
         Vector2 inputVector;
         bool inputCanceled;
-        private void Awake()
-        {
-            //inputActions = new InputSystem_Actions();
 
-            //inputActions.Player.Move.performed += Move_performed;
-            //inputActions.Player.Move.canceled += Move_canceled;
+        PlayerController driver;
+
+        public PlayerController Driver
+        {
+            get => driver;
+            set => driver = value;
         }
 
-        //private void Move_canceled(InputAction.CallbackContext obj)
-        //{
-            
-        //}
+        private void Awake()
+        {
+            inputActions = new();
 
-        //private void Move_performed(InputAction.CallbackContext obj)
-        //{
-        //    inputVector = obj.ReadValue<Vector2>();
-        //    inputCanceled = false;
-        //}
+            inputActions.Car.Move.performed += Move_performed;
+            inputActions.Car.Move.canceled += Move_canceled;
+        }
 
-        //private void OnEnable()
-        //{
-        //    inputActions.Enable();
-        //}
+        private void Move_canceled(InputAction.CallbackContext obj)
+        {
 
-        //private void OnDisable()
-        //{
-        //    inputActions.Disable();
-        //}
+        }
+
+        private void Move_performed(InputAction.CallbackContext obj)
+        {
+            //inputVector = obj.ReadValue<Vector2>();
+            //inputCanceled = false;
+        }
+
+        private void OnEnable()
+        {
+            Enable();
+        }
+
+        private void OnDisable()
+        {
+            Disable();
+        }
+
         private void Update()
         {
             if (inputCanceled && rigidBody.linearVelocity.magnitude < 0.1f)
@@ -132,7 +142,26 @@ namespace Assets.Scripts.Car
             inputCanceled = true;
         }
 
+        /// <summary>
+        /// Exit the car
+        /// </summary>
         public void Interact()
-        { }
+        {
+            if (driver != null)
+            {
+                driver.Interact();
+            }
+        }
+
+        // Not used currently, since we use IControllable Move and MoveCanceled methods
+        public void Enable()
+        {
+            inputActions.Car.Enable();
+        }
+
+        public void Disable()
+        {
+            inputActions.Car.Disable();
+        }
     }
 }

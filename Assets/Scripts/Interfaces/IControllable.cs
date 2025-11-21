@@ -7,5 +7,7 @@ namespace Assets.Scripts.Interfaces
         void Move(Vector2 direction);
         void MoveCanceled();
         void Interact();
+        void Enable();
+        void Disable();
     }
 }

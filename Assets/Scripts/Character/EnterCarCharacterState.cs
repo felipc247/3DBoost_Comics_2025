@@ -19,6 +19,8 @@ namespace Assets.Scripts.Character
         public override void OnStart()
         {
             _owner.SetColliderTrigger();
+            _owner.CurrentCar.Driver = _owner;
+            _owner.transform.SetParent(_owner.CurrentCar.transform);
             _animator.SetTrigger(_owner.EnterCarSettings.AnimationTrigger);
             _timePassed = 0;
         }

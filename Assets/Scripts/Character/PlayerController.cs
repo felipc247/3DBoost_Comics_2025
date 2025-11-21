@@ -197,6 +197,14 @@ public class PlayerController : MonoBehaviour, IControllable
     {
         _capsuleCollider.isTrigger = false;
     }
+
+    public void Enable()
+    {
+    }
+
+    public void Disable()
+    {
+    }
 }
 
 [Serializable]
