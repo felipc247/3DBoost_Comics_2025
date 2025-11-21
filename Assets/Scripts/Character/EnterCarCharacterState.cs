@@ -23,6 +23,7 @@ namespace Assets.Scripts.Character
             _owner.transform.SetParent(_owner.CurrentCar.transform);
             _animator.SetTrigger(_owner.EnterCarSettings.AnimationTrigger);
             _timePassed = 0;
+            GameManager.Instance.SwitchToCarCamera();
         }
 
         public override void OnUpdate()
@@ -59,7 +60,6 @@ namespace Assets.Scripts.Character
 
         public override void OnEnd()
         {
-
         }
     }
 }
