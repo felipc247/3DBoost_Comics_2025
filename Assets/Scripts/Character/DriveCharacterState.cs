@@ -16,6 +16,8 @@ namespace Assets.Scripts.Character
         public override void OnStart()
         {
             GameManager.Instance.SwitchToCarCamera();
+            GameManager.Instance.SetControllable(_owner.CurrentCar);
+            _owner.transform.SetParent(_owner.CurrentCar.transform);
             _animator.SetTrigger(_owner.DriveSettings.AnimationTrigger);
             _timePassed = 0;
         }

@@ -12,9 +12,9 @@ public class PlayerControllerAnimatorUtils : MonoBehaviour
         playerController.SitIntoCar();
     }
 
-    public void SitCompleted()
+    public void DisableAgent()
     {
-        playerController.SitCompleted();
+        playerController.DisableAgent();
     }
 
     public void SetColliderTrigger()
@@ -24,5 +24,10 @@ public class PlayerControllerAnimatorUtils : MonoBehaviour
     public void SetColliderSolid()
     {
         playerController.SetColliderSolid();
+    }
+
+    public void ExitFromCar()
+    {
+        playerController.ExitFromCar();
     }
 }

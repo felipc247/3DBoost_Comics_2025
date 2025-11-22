@@ -24,9 +24,27 @@ namespace Assets.Scripts.Character
         public override void OnUpdate()
         {
             _timePassed += Time.deltaTime;
+
+            if (_owner.transform.rotation != _owner.CurrentCar.ExitPivot.rotation)
+            {
+                _owner.transform.rotation =
+                    Quaternion.RotateTowards(
+                        _owner.transform.rotation,
+                        _owner.CurrentCar.ExitPivot.rotation,
+                        _owner.RotationSpeed * Time.deltaTime);
+
+                if (Quaternion.Angle(_owner.transform.rotation, _owner.CurrentCar.ExitPivot.rotation) > _owner.MinimumStoppingRotationAngle)
+                {
+                    return;
+                }
+
+                _owner.transform.rotation = _owner.CurrentCar.ExitPivot.rotation;
+            }
+
             if (_timePassed >= _clipLength)
             {
                 _owner.SetIdle();
+                return;
             }
         }
 
@@ -37,7 +55,7 @@ namespace Assets.Scripts.Character
 
         public override void OnEnd()
         {
-
+            _owner.ForgetCar();
         }
     }
 }

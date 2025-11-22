@@ -1,4 +1,5 @@
 using Assets.Scripts.Interfaces;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ namespace Assets.Scripts.Car
     {
         [field: SerializeField] public Transform AccessPivot { get; private set; }
         [field: SerializeField] public Transform DrivePivot { get; private set; }
+        [field: SerializeField] public Transform ExitPivot { get; private set; }
 
         [Header("Car Settings")]
         [SerializeField] float motorTorque = 2000f;
@@ -25,6 +27,10 @@ namespace Assets.Scripts.Car
         //InputSystem_Actions inputActions;
         Vector2 inputVector;
         bool inputCanceled;
+
+        PlayerController driver;
+
+
         private void Awake()
         {
             //inputActions = new InputSystem_Actions();
@@ -133,6 +139,26 @@ namespace Assets.Scripts.Car
         }
 
         public void Interact()
-        { }
+        {
+            if (driver == null)
+            { 
+                
+                return;
+            }
+            driver.SetExitCar();
+            GameManager.Instance.SetControllable(driver);
+            driver = null;
+            MoveCanceled();
+        }
+
+        public bool HasNoDriver()
+        {
+            return driver == null;
+        }
+
+        public void SetDriver(PlayerController playerController)
+        {
+            driver = playerController;
+        }
     }
 }

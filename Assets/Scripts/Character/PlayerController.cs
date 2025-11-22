@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerController : MonoBehaviour, IControllable
 {
@@ -44,6 +45,9 @@ public class PlayerController : MonoBehaviour, IControllable
 
     Collider _capsuleCollider;
 
+    Camera _mainCamera;
+    public Camera MainCamera => _mainCamera;
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -51,6 +55,8 @@ public class PlayerController : MonoBehaviour, IControllable
         _capsuleCollider = GetComponent<Collider>();
 
         _agent.enabled = false;
+
+        _mainCamera = Camera.main;
 
         stateMachine = new();
         stateMachine.RegisterState(CharacterStateEnum.Idle, new IdleCharacterState(this, _animator));
@@ -111,7 +117,7 @@ public class PlayerController : MonoBehaviour, IControllable
     public void SetNearestCar()
     {
         RaycastHit[] results = new RaycastHit[4];
-        
+
         if (Physics.SphereCastNonAlloc(
             transform.position,
             radius,
@@ -121,11 +127,18 @@ public class PlayerController : MonoBehaviour, IControllable
             carMask) > 0)
         {
             // abbiamo beccato almeno 1 macchina su 4 disponibilità
-            _currentCar = results
+            var carSelected = results
                 .Where(r => r.collider != null)
                 .Select(r => r.collider.GetComponentInParent<CarControl>())
+                .Where(c => c.HasNoDriver())
                 .OrderBy(cc => Vector3.Distance(transform.position, cc.AccessPivot.position))
                 .FirstOrDefault();
+
+            if (carSelected)
+            {
+                carSelected.SetDriver(this);
+                _currentCar = carSelected;
+            }
         }
     }
 
@@ -183,9 +196,14 @@ public class PlayerController : MonoBehaviour, IControllable
     /// <summary>
     /// Called from external behavior used in Animator
     /// </summary>
-    public void SitCompleted()
+    public void DisableAgent()
     {
         _agent.enabled = false;
+    }
+
+    public void ExitFromCar()
+    {
+        SetAgentDestination(CurrentCar.ExitPivot);
     }
 
     public void SetColliderTrigger()
@@ -196,6 +214,12 @@ public class PlayerController : MonoBehaviour, IControllable
     public void SetColliderSolid()
     {
         _capsuleCollider.isTrigger = false;
+    }
+
+    internal void ForgetCar()
+    {
+        transform.SetParent(null);
+        _currentCar = null;
     }
 }
 
