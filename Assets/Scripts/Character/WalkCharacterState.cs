@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Character
 {
@@ -25,31 +26,42 @@ namespace Assets.Scripts.Character
 
         public override void OnUpdate()
         {
-            //_owner.transform.rotation =
-            //    Quaternion.RotateTowards(
-            //    _owner.transform.rotation,
-            //    _owner.MainCamera.transform.rotation,
-            //    _owner.RotationSpeed * Time.deltaTime);
-
             if (_owner.Direction == Vector3.zero)
             {
                 _owner.SetIdle();
                 return;
             }
+
+            // get the target rotation based on movement direction
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            // gradually rotate to target rotation
+            _owner.transform.rotation = Quaternion.RotateTowards(
+                _owner.transform.rotation,
+                targetRotation,
+                _owner.RotationSpeed * Time.deltaTime);
         }
+
+        private Vector3 moveDirection;
 
         public override void OnFixedUpdate()
         {
-            Vector3 characterDir = _owner.MainCamera.transform.TransformDirection(_owner.Direction);
-            characterDir.y = 0;
-            _rigidbody.AddForce(_owner.Acceleration * Time.fixedDeltaTime * characterDir);
+            // get the movement direction relative to the camera
+            moveDirection = _owner.MainCamera.transform.TransformDirection(_owner.Direction).normalized;
+            // null the camera tilt
+            moveDirection.y = 0;
 
-            _owner.transform.forward = characterDir;
-                //Vector3.RotateTowards(
-                //    _owner.transform.forward,
-                //    characterDir,
-                //    _owner.RotationSpeed * Time.fixedDeltaTime,
-                //    0);
+            Vector3 velocity = _owner.MaxSpeed * Time.fixedDeltaTime * moveDirection;
+            velocity.y = _rigidbody.linearVelocity.y;
+            _rigidbody.linearVelocity = velocity;
+
+            //_rigidbody.AddForce(_owner.Acceleration * Time.fixedDeltaTime * characterDir);
+
+            //_owner.transform.forward = moveDirection;
+            //Vector3.RotateTowards(
+            //    _owner.transform.forward,
+            //    characterDir,
+            //    _owner.RotationSpeed * Time.fixedDeltaTime,
+            //    0);
 
 
             _rigidbody.linearVelocity =
