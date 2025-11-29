@@ -39,6 +39,9 @@ namespace Assets.Scripts.Character
                 _owner.transform.rotation,
                 targetRotation,
                 _owner.RotationSpeed * Time.deltaTime);
+
+            //Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            //_rigidbody.MoveRotation(Quaternion.RotateTowards(_owner.transform.rotation, targetRotation, _owner.RotationSpeed * Time.deltaTime));
         }
 
         private Vector3 moveDirection;
@@ -53,6 +56,8 @@ namespace Assets.Scripts.Character
             Vector3 velocity = _owner.MaxSpeed * Time.fixedDeltaTime * moveDirection;
             velocity.y = _rigidbody.linearVelocity.y;
             _rigidbody.linearVelocity = velocity;
+
+
 
             //_rigidbody.AddForce(_owner.Acceleration * Time.fixedDeltaTime * characterDir);
 
